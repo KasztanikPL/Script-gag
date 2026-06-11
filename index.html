@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arbeitslosigkeit — Wirtschaft</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0b0e12;--bg2:#13171d;--bg3:#1a1f27;--bd:#252d38;--bd2:#2e3a48;--tx:#e8ecf0;--tx2:#9ba8b5;--tx3:#5c6e7e;--gold:#f0b429;--red:#ef5353;--green:#4ade9a;--blue:#60a5fa;--purple:#a78bfa}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:system-ui,sans-serif;line-height:1.6;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(11,14,18,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 1.5rem;gap:.75rem}
+.logo{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:.95rem}
+.logo-i{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--gold),#c88a10);display:flex;align-items:center;justify-content:center;font-weight:800;color:#000}
+.nl{display:flex;gap:.15rem;margin-left:.25rem}
+.na{font-size:.8rem;color:var(--tx2);padding:.4rem .75rem;border-radius:6px;border:1px solid transparent;transition:all .15s;cursor:pointer;position:relative}
+.na:hover,.na.on{color:var(--tx);background:var(--bg3);border-color:var(--bd)}
+.na.on{color:var(--gold);border-color:rgba(240,180,41,.25)}
+.nav-item{position:relative}
+.arr{display:inline-block;width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);margin-left:3px;transition:transform .2s}
+.nav-item.op .arr{transform:rotate(-135deg) translateY(-2px)}
+.dd{position:absolute;top:calc(100% + 8px);left:0;min-width:190px;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:.4rem;box-shadow:0 8px 32px rgba(0,0,0,.4);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .18s;pointer-events:none}
+.nav-item.op .dd{opacity:1;visibility:visible;transform:translateY(0);pointer-events:all}
+.ddi{display:block;padding:.55rem .75rem;border-radius:6px;font-size:.79rem;color:var(--tx2);transition:background .12s}
+.ddi:hover{background:var(--bg3);color:var(--tx)}
+.nb{margin-left:auto;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:rgba(240,180,41,.1);border:1px solid rgba(240,180,41,.2);padding:.2rem .6rem;border-radius:100px}
+.hbg{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;margin-left:auto;padding:4px}
+.hbg span{display:block;width:20px;height:1.5px;background:var(--tx2);border-radius:2px;transition:transform .25s,opacity .25s}
+.mob{position:fixed;top:60px;left:0;right:0;bottom:0;background:var(--bg2);z-index:99;transform:translateX(-100%);transition:transform .3s;padding:1.5rem;display:flex;flex-direction:column;gap:.4rem;overflow-y:auto}
+.mob.op{transform:translateX(0)}
+.ml{display:block;padding:.8rem 1rem;font-size:.9rem;color:var(--tx2);border-radius:8px;border:1px solid transparent;transition:all .15s}
+.ml:hover,.ml.on{background:var(--bg3);border-color:var(--bd);color:var(--tx)}
+.ml.on{color:var(--gold)}
+.hero{margin-top:60px;position:relative;overflow:hidden;height:460px}
+.slides{display:flex;height:100%;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+.slide{min-width:100%;height:100%;display:flex;align-items:flex-end;padding:2.5rem 3rem;position:relative;flex-shrink:0}
+.sbg{position:absolute;inset:0}
+.sov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 65%,transparent 100%)}
+.sc{position:relative;z-index:2;max-width:600px}
+.se{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.6rem}
+.st{font-size:clamp(1.8rem,5vw,3.4rem);font-weight:700;line-height:1.05;letter-spacing:-.04em;color:#fff;margin-bottom:.7rem}
+.st em{font-style:italic;font-weight:300;color:var(--gold)}
+.sd{font-size:.85rem;color:rgba(255,255,255,.6);max-width:440px;line-height:1.7;margin-bottom:1.1rem}
+.stags{display:flex;flex-wrap:wrap;gap:.4rem}
+.stag{font-size:.66rem;padding:.22rem .65rem;border-radius:100px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.75)}
+.stag.hi{background:rgba(240,180,41,.15);border-color:rgba(240,180,41,.35);color:var(--gold)}
+.slide:nth-child(1) .sbg{background:linear-gradient(135deg,#0d1b2a,#1a3050,#0b1e36)}
+.slide:nth-child(2) .sbg{background:linear-gradient(135deg,#1a0d0d,#3a1515,#1a0a0a)}
+.slide:nth-child(3) .sbg{background:linear-gradient(135deg,#0a1a12,#0f2e1e,#071510)}
+.sn{position:absolute;right:2.5rem;top:50%;transform:translateY(-50%);font-size:min(11rem,18vw);font-weight:800;letter-spacing:-.06em;color:rgba(255,255,255,.03);line-height:1;pointer-events:none;user-select:none}
+.sctrl{position:absolute;bottom:1.25rem;right:2rem;display:flex;align-items:center;gap:.55rem;z-index:10}
+.sbtn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:background .15s}
+.sbtn:hover{background:rgba(255,255,255,.2)}
+.sdots{display:flex;gap:.35rem}
+.sdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:all .25s;border:none}
+.sdot.on{width:18px;border-radius:3px;background:var(--gold)}
+.sbar{position:absolute;bottom:0;left:0;height:2px;background:var(--gold);z-index:10}
+.main{max-width:1260px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.sh{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;gap:1rem;flex-wrap:wrap}
+.stitle{font-size:.95rem;font-weight:600;letter-spacing:-.01em}
+.ssub{font-size:.75rem;color:var(--tx3);margin-top:.15rem}
+.sbadge{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:rgba(240,180,41,.1);border:1px solid rgba(240,180,41,.2);padding:.22rem .65rem;border-radius:100px;flex-shrink:0}
+.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-bottom:1rem}
+.kpi{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:1.25rem;position:relative;overflow:hidden;transition:border-color .2s,transform .2s;cursor:default}
+.kpi:hover{border-color:var(--bd2);transform:translateY(-2px)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kg::before{background:linear-gradient(90deg,var(--gold),transparent)}
+.kr::before{background:linear-gradient(90deg,var(--red),transparent)}
+.kgr::before{background:linear-gradient(90deg,var(--green),transparent)}
+.kb::before{background:linear-gradient(90deg,var(--blue),transparent)}
+.kl{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:.5rem}
+.kv{font-size:2.1rem;font-weight:700;letter-spacing:-.04em;line-height:1;margin-bottom:.35rem}
+.kg .kv{color:var(--gold)}.kr .kv{color:var(--red)}.kgr .kv{color:var(--green)}.kb .kv{color:var(--blue)}
+.ku{font-size:1rem;font-weight:400}
+.km{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--tx3)}
+.du{font-size:.7rem;font-weight:600;padding:.12rem .4rem;border-radius:3px}
+.up{color:var(--red);background:rgba(239,83,83,.12)}.dn{color:var(--green);background:rgba(74,222,154,.12)}.nt{color:var(--tx3);background:var(--bg3)}
+.crow{display:grid;grid-template-columns:2fr 1fr;gap:.85rem;margin-bottom:.85rem}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:1.35rem;transition:border-color .2s}
+.card:hover{border-color:var(--bd2)}
+.chd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.ct{font-size:.85rem;font-weight:600}
+.pill{font-size:.62rem;letter-spacing:.05em;padding:.2rem .6rem;border-radius:100px}
+.pg{background:rgba(240,180,41,.1);color:var(--gold);border:1px solid rgba(240,180,41,.2)}
+.pb{background:rgba(96,165,250,.1);color:var(--blue);border:1px solid rgba(96,165,250,.2)}
+.pm{background:var(--bg3);color:var(--tx3);border:1px solid var(--bd)}
+.dw{display:flex;flex-direction:column;align-items:center;gap:.85rem}
+.db{position:relative;width:155px;height:155px}
+.dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.dv{font-size:1.6rem;font-weight:700;letter-spacing:-.04em;line-height:1}
+.dlb{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);margin-top:.2rem}
+.dleg{width:100%;display:grid;gap:.4rem}
+.dli{display:flex;align-items:center;justify-content:space-between;font-size:.75rem}
+.dll{display:flex;align-items:center;gap:.45rem;color:var(--tx2)}
+.dd2{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dp{font-size:.73rem;font-weight:600;color:var(--tx)}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:.85rem}
+.tc{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:1.1rem;transition:border-color .2s,transform .2s}
+.tc:hover{border-color:var(--bd2);transform:translateY(-2px)}
+.ttp{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.7rem}
+.ti{width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.ttt{font-size:.83rem;font-weight:600;margin-bottom:.3rem}
+.td{font-size:.75rem;color:var(--tx3);line-height:1.6}
+.tf{display:flex;align-items:center;justify-content:space-between;margin-top:.8rem}
+.tp{font-size:1.4rem;font-weight:700;letter-spacing:-.04em;line-height:1}
+.cl{border-left:3px solid var(--gold);background:rgba(240,180,41,.06);border-radius:0 8px 8px 0;padding:.9rem 1.1rem;margin-top:1rem}
+.cl.red{border-left-color:var(--red);background:rgba(239,83,83,.06)}
+.cll{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:.25rem}
+.cl.red .cll{color:var(--red)}
+.clt{font-size:.81rem;color:var(--tx2);line-height:1.7;font-style:italic}
+.tbl-c{margin-bottom:.85rem}
+table{width:100%;border-collapse:collapse;font-size:.79rem}
+th{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--bd);font-weight:500}
+td{padding:.62rem .7rem;border-bottom:1px solid rgba(37,45,56,.4);color:var(--tx2);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg3)}
+.tdc{display:flex;align-items:center;gap:.55rem;color:var(--tx);font-weight:500}
+.flag{width:26px;height:18px;border-radius:2px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:var(--tx3);flex-shrink:0}
+.bt{flex:1;height:4px;border-radius:2px;background:var(--bg3);overflow:hidden}
+.bf{height:100%;border-radius:2px}
+.tds{font-size:.63rem;letter-spacing:.07em;text-transform:uppercase;padding:.16rem .48rem;border-radius:3px}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.85rem}
+.mh{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding-bottom:.55rem;margin-bottom:.65rem;border-bottom:1px solid var(--bd)}
+.mi{display:flex;align-items:flex-start;gap:.55rem;padding:.55rem .7rem;background:var(--bg3);border:1px solid var(--bd);border-radius:7px;margin-bottom:.4rem;font-size:.78rem;color:var(--tx2);transition:background .13s}
+.mi:last-child{margin-bottom:0}.mi:hover{background:var(--bg2)}
+.md{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:.42rem}
+footer{border-top:1px solid var(--bd);padding:1.5rem;max-width:1260px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.7rem;color:var(--tx3)}
+@media(max-width:1000px){.krow{grid-template-columns:repeat(2,1fr)}.crow{grid-template-columns:1fr}.tg{grid-template-columns:repeat(2,1fr)}.mg{grid-template-columns:1fr}}
+@media(max-width:680px){.nl,.nb{display:none}.hbg{display:flex}.hero{height:380px}.slide{padding:1.75rem 1.25rem}.sn{display:none}.sctrl{right:1.25rem}.main{padding:1.25rem 1rem 3rem}.krow{grid-template-columns:1fr 1fr}.tg{grid-template-columns:1fr}}
+@media(max-width:400px){.krow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="#" class="logo"><div class="logo-i">A</div><span>Arbeit.Info</span></a>
+  <div class="nl">
+    <a class="na on" href="#dash">Dashboard</a>
+    <div class="nav-item" id="d1"><button class="na" onclick="td('d1')">Arten <span class="arr"></span></button>
+      <div class="dd"><a class="ddi" href="#arten" onclick="cd('d1')">Konjunkturelle</a><a class="ddi" href="#arten" onclick="cd('d1')">Strukturelle</a><a class="ddi" href="#arten" onclick="cd('d1')">Friktionelle</a><a class="ddi" href="#arten" onclick="cd('d1')">Technologische</a></div>
+    </div>
+    <div class="nav-item" id="d2"><button class="na" onclick="td('d2')">Maßnahmen <span class="arr"></span></button>
+      <div class="dd"><a class="ddi" href="#mass" onclick="cd('d2')">Aktive Maßnahmen</a><a class="ddi" href="#mass" onclick="cd('d2')">Passive Maßnahmen</a></div>
+    </div>
+    <a class="na" href="#intl">International</a>
+  </div>
+  <span class="nb">Kapitel 04</span>
+  <button class="hbg" id="hbg" onclick="tm()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob" id="mob">
+  <a class="ml on" href="#dash" onclick="cm()">Dashboard</a>
+  <a class="ml" href="#arten" onclick="cm()">Arten der Arbeitslosigkeit</a>
+  <a class="ml" href="#mass" onclick="cm()">Maßnahmen</a>
+  <a class="ml" href="#intl" onclick="cm()">International</a>
+</div>
+<section class="hero">
+  <div class="slides" id="slides">
+    <div class="slide"><div class="sbg"></div><div class="sov"></div><div class="sn">01</div>
+      <div class="sc"><p class="se">Wirtschaft · Kapitel 04</p><h1 class="st">Arbeits<em>losig</em>keit<br>verstehen</h1><p class="sd">Definition, Messung und die verschiedenen Formen — von konjunkturell bis strukturell.</p><div class="stags"><span class="stag hi">4,8 % Quote</span><span class="stag">2,71 Mio.</span><span class="stag">6 Arten</span></div></div>
+    </div>
+    <div class="slide"><div class="sbg"></div><div class="sov"></div><div class="sn">02</div>
+      <div class="sc"><p class="se">Verzerrung · Messprobleme</p><h1 class="st">Die <em>stille</em><br>Reserve</h1><p class="sd">Offizielle Statistiken unterschätzen das wahre Ausmaß. Stille Reserve, Maßnahmenteilnehmer, Kurzarbeiter.</p><div class="stags"><span class="stag hi">~+30 % Untererfassung</span><span class="stag">Stille Reserve</span></div></div>
+    </div>
+    <div class="slide"><div class="sbg"></div><div class="sov"></div><div class="sn">03</div>
+      <div class="sc"><p class="se">Politik · Bekämpfung</p><h1 class="st"><em>Aktiv</em> oder<br>Passiv?</h1><p class="sd">Weiterbildung und Vermittlung vs. Einkommenssicherung — staatliche Instrumente im Vergleich.</p><div class="stags"><span class="stag hi">ALG I · Bürgergeld</span><span class="stag">Kurzarbeitergeld</span></div></div>
+    </div>
+  </div>
+  <div class="sbar" id="sbar"></div>
+  <div class="sctrl">
+    <div class="sdots"><button class="sdot on" onclick="go(0)"></button><button class="sdot" onclick="go(1)"></button><button class="sdot" onclick="go(2)"></button></div>
+    <button class="sbtn" onclick="prev()">&#8592;</button>
+    <button class="sbtn" onclick="next()">&#8594;</button>
+  </div>
+</section>
+<main class="main" id="dash">
+  <div class="sh"><div><div class="stitle">Aktuelle Kennzahlen</div><div class="ssub">Deutschland · 2026 · Bundesagentur für Arbeit</div></div><span class="sbadge">Live-Daten</span></div>
+  <div class="krow">
+    <div class="kpi kg"><div class="kl">Arbeitslosenquote</div><div class="kv">4<span class="ku">,8 %</span></div><div class="km"><span class="du up">▲ +0,1</span>ggü. Vormonat</div></div>
+    <div class="kpi kr"><div class="kl">Arbeitslose (Mio.)</div><div class="kv">2<span class="ku">,71 M</span></div><div class="km"><span class="du up">▲ +42k</span>ggü. Vorjahr</div></div>
+    <div class="kpi kgr"><div class="kl">Offene Stellen</div><div class="kv">0<span class="ku">,69 M</span></div><div class="km"><span class="du dn">▼ −18k</span>ggü. Vorjahr</div></div>
+    <div class="kpi kb"><div class="kl">Jugendarbeitslosigkeit</div><div class="kv">6<span class="ku">,3 %</span></div><div class="km"><span class="du nt">→ 0,0</span>stabil</div></div>
+  </div>
+  <div class="crow">
+    <div class="card"><div class="chd"><span class="ct">Jahresverlauf der Arbeitslosenquote</span><div style="display:flex;gap:.4rem"><span class="pill pg">12 M.</span><span class="pill pb">Jugend</span></div></div><div style="position:relative;height:225px"><canvas id="lc"></canvas></div></div>
+    <div class="card"><div class="chd"><span class="ct">Arten — Verteilung</span></div>
+      <div class="dw">
+        <div class="db"><canvas id="dc"></canvas><div class="dc"><div class="dv">2,71<span style="font-size:.95rem">M</span></div><div class="dlb">Gesamt</div></div></div>
+        <div class="dleg">
+          <div class="dli"><div class="dll"><div class="dd2" style="background:var(--red)"></div>Konjunkturell</div><div class="dp">34%</div></div>
+          <div class="dli"><div class="dll"><div class="dd2" style="background:var(--blue)"></div>Strukturell</div><div class="dp">28%</div></div>
+          <div class="dli"><div class="dll"><div class="dd2" style="background:var(--gold)"></div>Friktionell</div><div class="dp">18%</div></div>
+          <div class="dli"><div class="dll"><div class="dd2" style="background:var(--purple)"></div>Technologisch</div><div class="dp">12%</div></div>
+          <div class="dli"><div class="dll"><div class="dd2" style="background:var(--green)"></div>Saisonal</div><div class="dp">8%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sh" id="arten" style="margin-top:1.5rem"><div><div class="stitle">Arten der Arbeitslosigkeit</div><div class="ssub">Sechs Hauptkategorien</div></div><span class="sbadge">04.1</span></div>
+  <div class="tg">
+    <div class="tc"><div class="ttp"><div class="ti" style="background:rgba(239,83,83,.12);color:var(--red)">&#8681;</div><span class="pill pm">Temporär</span></div><div class="ttt">Konjunkturelle</div><div class="td">Wirtschaftsabschwung → Nachfrage sinkt. Kehrt mit Aufschwung zurück.</div><div class="tf"><div class="tp" style="color:var(--red)">34%</div><span class="pill" style="background:rgba(239,83,83,.1);color:var(--red);border:1px solid rgba(239,83,83,.2)">~920k</span></div></div>
+    <div class="tc"><div class="ttp"><div class="ti" style="background:rgba(96,165,250,.12);color:var(--blue)">&#9112;</div><span class="pill pm">Langfristig</span></div><div class="ttt">Strukturelle</div><div class="td">Dauerhafter Wandel (Digitalisierung). Erfordert Umschulung.</div><div class="tf"><div class="tp" style="color:var(--blue)">28%</div><span class="pill" style="background:rgba(96,165,250,.1);color:var(--blue);border:1px solid rgba(96,165,250,.2)">~759k</span></div></div>
+    <div class="tc"><div class="ttp"><div class="ti" style="background:rgba(240,180,41,.12);color:var(--gold)">&#8652;</div><span class="pill pm">Normal</span></div><div class="ttt">Friktionelle</div><div class="td">Übergang zwischen Jobs. Unvermeidlich in freier Marktwirtschaft.</div><div class="tf"><div class="tp" style="color:var(--gold)">18%</div><span class="pill pg">~488k</span></div></div>
+    <div class="tc"><div class="ttp"><div class="ti" style="background:rgba(167,139,250,.12);color:var(--purple)">&#9881;</div><span class="pill pm">Wachsend</span></div><div class="ttt">Technologische</div><div class="td">Automatisierung ersetzt Arbeitskräfte.</div><div class="tf"><div class="tp" style="color:var(--purple)">12%</div><span class="pill" style="background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.2)">~325k</span></div></div>
+    <div class="tc"><div class="ttp"><div class="ti" style="background:rgba(74,222,154,.12);color:var(--green)">&#9400;</div><span class="pill pm">Saisonal</span></div><div class="ttt">Saisonale</div><div class="td">Jahreszeiten (Bau, Tourismus). Vorhersehbar und befristet.</div><div class="tf"><div class="tp" style="color:var(--green)">8%</div><span class="pill" style="background:rgba(74,222,154,.1);color:var(--green);border:1px solid rgba(74,222,154,.2)">~217k</span></div></div>
+    <div class="tc"><div class="ttp"><div class="ti" style="background:rgba(251,146,60,.12);color:#fb923c">&#9656;</div><span class="pill pm">Persistent</span></div><div class="ttt">Sockelarbeitslosigkeit</div><div class="td">Verbleibt im Konjunkturhoch. Schwer vermittelbare Personen.</div><div class="tf"><div class="tp" style="color:#fb923c">—</div><span class="pill pm">Sockelbasis</span></div></div>
+  </div>
+  <div class="cl red"><div class="cll">Merksatz</div><div class="clt">Die offizielle Quote unterschätzt das wahre Ausmaß: Stille Reserve, Maßnahmeteilnehmer und Kurzarbeiter fehlen in der Statistik.</div></div>
+  <div class="sh" id="intl" style="margin-top:1.5rem"><div><div class="stitle">Internationaler Vergleich</div><div class="ssub">EU-Staaten · 2026 · EUROSTAT</div></div><span class="sbadge">EUROSTAT</span></div>
+  <div class="card tbl-c">
+    <table><thead><tr><th>Land</th><th>Quote</th><th>Anteil</th><th>Trend</th><th>Status</th></tr></thead><tbody>
+      <tr><td><div class="tdc"><div class="flag">DE</div>Deutschland</div></td><td>4,8 %</td><td><div style="display:flex;align-items:center;gap:.5rem"><div class="bt"><div class="bf" style="width:40%;background:var(--green)"></div></div></div></td><td style="color:var(--green);font-weight:600">▼</td><td><span class="tds" style="background:rgba(240,180,41,.12);color:var(--gold)">Stabil</span></td></tr>
+      <tr><td><div class="tdc"><div class="flag">AT</div>Österreich</div></td><td>5,1 %</td><td><div style="display:flex;align-items:center;gap:.5rem"><div class="bt"><div class="bf" style="width:43%;background:var(--gold)"></div></div></div></td><td style="color:var(--tx3);font-weight:600">→</td><td><span class="tds" style="background:rgba(240,180,41,.12);color:var(--gold)">Stabil</span></td></tr>
+      <tr><td><div class="tdc"><div class="flag">NL</div>Niederlande</div></td><td>3,7 %</td><td><div style="display:flex;align-items:center;gap:.5rem"><div class="bt"><div class="bf" style="width:31%;background:var(--green)"></div></div></div></td><td style="color:var(--green);font-weight:600">▼</td><td><span class="tds" style="background:rgba(74,222,154,.12);color:var(--green)">Gut</span></td></tr>
+      <tr><td><div class="tdc"><div class="flag">PL</div>Polen</div></td><td>2,9 %</td><td><div style="display:flex;align-items:center;gap:.5rem"><div class="bt"><div class="bf" style="width:24%;background:var(--green)"></div></div></div></td><td style="color:var(--green);font-weight:600">▼</td><td><span class="tds" style="background:rgba(74,222,154,.12);color:var(--green)">Sehr gut</span></td></tr>
+      <tr><td><div class="tdc"><div class="flag">FR</div>Frankreich</div></td><td>7,3 %</td><td><div style="display:flex;align-items:center;gap:.5rem"><div class="bt"><div class="bf" style="width:61%;background:var(--gold)"></div></div></div></td><td style="color:var(--tx3);font-weight:600">→</td><td><span class="tds" style="background:rgba(251,146,60,.12);color:#fb923c">Erhöht</span></td></tr>
+      <tr><td><div class="tdc"><div class="flag">ES</div>Spanien</div></td><td>11,2 %</td><td><div style="display:flex;align-items:center;gap:.5rem"><div class="bt"><div class="bf" style="width:93%;background:var(--red)"></div></div></div></td><td style="color:var(--red);font-weight:600">▲</td><td><span class="tds" style="background:rgba(239,83,83,.12);color:var(--red)">Kritisch</span></td></tr>
+      <tr><td><div class="tdc"><div class="flag">IT</div>Italien</div></td><td>6,7 %</td><td><div style="display:flex;align-items:center;gap:.5rem"><div class="bt"><div class="bf" style="width:56%;background:var(--gold)"></div></div></div></td><td style="color:var(--green);font-weight:600">▼</td><td><span class="tds" style="background:rgba(251,146,60,.12);color:#fb923c">Erhöht</span></td></tr>
+      <tr><td><div class="tdc"><div class="flag">GR</div>Griechenland</div></td><td>10,1 %</td><td><div style="display:flex;align-items:center;gap:.5rem"><div class="bt"><div class="bf" style="width:84%;background:var(--red)"></div></div></div></td><td style="color:var(--tx3);font-weight:600">→</td><td><span class="tds" style="background:rgba(239,83,83,.12);color:var(--red)">Kritisch</span></td></tr>
+    </tbody></table>
+  </div>
+  <div class="sh" id="mass" style="margin-top:1.5rem"><div><div class="stitle">Maßnahmen zur Bekämpfung</div><div class="ssub">Aktive vs. passive Instrumente</div></div><span class="sbadge">04.2</span></div>
+  <div class="mg">
+    <div class="card"><div class="mh" style="color:var(--green)">Aktive Maßnahmen</div>
+      <div class="mi"><div class="md" style="background:var(--green)"></div>Aus- und Weiterbildungsförderung</div>
+      <div class="mi"><div class="md" style="background:var(--green)"></div>Arbeitsvermittlung (Agentur für Arbeit)</div>
+      <div class="mi"><div class="md" style="background:var(--green)"></div>Eingliederungszuschüsse</div>
+      <div class="mi"><div class="md" style="background:var(--green)"></div>Arbeitsbeschaffungsmaßnahmen (ABM)</div>
+      <div class="mi"><div class="md" style="background:var(--green)"></div>Gründungszuschuss</div>
+    </div>
+    <div class="card"><div class="mh" style="color:var(--red)">Passive Maßnahmen</div>
+      <div class="mi"><div class="md" style="background:var(--red)"></div>Arbeitslosengeld I (ALG I)</div>
+      <div class="mi"><div class="md" style="background:var(--red)"></div>Bürgergeld (ehem. Hartz IV)</div>
+      <div class="mi"><div class="md" style="background:var(--red)"></div>Kurzarbeitergeld</div>
+      <div class="mi"><div class="md" style="background:var(--red)"></div>Insolvenzgeld</div>
+    </div>
+  </div>
+  <div class="cl"><div class="cll">Merksatz</div><div class="clt">Aktive Maßnahmen bekämpfen die Ursache. Passive Maßnahmen sichern das Einkommen — lösen das Problem aber nicht.</div></div>
+</main>
+<footer><span>&copy; 2026 Arbeit.Info — Wirtschaft Kapitel 04</span><span>Bundesagentur für Arbeit · EUROSTAT</span></footer>
+<script>
+window.addEventListener('scroll',()=>document.getElementById('nav').style.boxShadow=scrollY>20?'0 2px 24px rgba(0,0,0,.5)':'');
+function td(id){document.querySelectorAll('.nav-item').forEach(e=>{if(e.id!==id)e.classList.remove('op')});document.getElementById(id).classList.toggle('op')}
+function cd(id){document.getElementById(id).classList.remove('op')}
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-item'))document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('op'))});
+var mob=false;
+function tm(){mob=!mob;document.getElementById('mob').classList.toggle('op',mob);document.body.style.overflow=mob?'hidden':'';var s=document.getElementById('hbg').querySelectorAll('span');s[0].style.transform=mob?'translateY(6.5px) rotate(45deg)':'';s[1].style.opacity=mob?'0':'';s[2].style.transform=mob?'translateY(-6.5px) rotate(-45deg)':'';}
+function cm(){if(mob)tm()}
+var cur=0,timer,ps,pr;var IV=6000;
+var sl=document.getElementById('slides');var dots=document.querySelectorAll('.sdot');var bar=document.getElementById('sbar');
+function go(n){cur=((n%3)+3)%3;sl.style.transform='translateX(-'+cur*100+'%)';dots.forEach(function(d,i){d.classList.toggle('on',i===cur)});reset()}
+function next(){go(cur+1)}function prev(){go(cur-1)}
+function sb(){cancelAnimationFrame(pr);bar.style.transition='none';bar.style.width='0%';ps=performance.now();function s(n){var p=Math.min((n-ps)/IV*100,100);bar.style.width=p+'%';if(p<100)pr=requestAnimationFrame(s)}requestAnimationFrame(s)}
+function reset(){clearInterval(timer);sb();timer=setInterval(function(){go(cur+1)},IV)}
+reset();
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev()});
+Chart.defaults.color='#5c6e7e';Chart.defaults.font.family='system-ui,sans-serif';Chart.defaults.font.size=11;
+var M=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+var R=[5.2,5.1,4.9,4.8,4.7,4.9,5.0,5.1,4.8,4.7,4.8,5.0];
+var Y=[6.8,6.6,6.4,6.3,6.1,6.2,6.5,6.7,6.3,6.1,6.2,6.4];
+new Chart(document.getElementById('lc'),{type:'line',data:{labels:M,datasets:[{label:'Allgemein',data:R,borderColor:'#f0b429',backgroundColor:'rgba(240,180,41,.08)',borderWidth:2,pointRadius:3,pointHoverRadius:5,pointBackgroundColor:'#f0b429',fill:true,tension:.4},{label:'Jugend',data:Y,borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,.05)',borderWidth:2,pointRadius:3,pointHoverRadius:5,pointBackgroundColor:'#60a5fa',fill:true,tension:.4}]},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:true,labels:{color:'#9ba8b5',boxWidth:10,boxHeight:10}},tooltip:{backgroundColor:'#1a1f27',borderColor:'#252d38',borderWidth:1,padding:10,callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+' %'}}}},scales:{x:{grid:{color:'rgba(37,45,56,.5)'},border:{display:false}},y:{grid:{color:'rgba(37,45,56,.5)'},border:{display:false},ticks:{callback:function(v){return v+' %'}},min:3,max:8}}}});
+new Chart(document.getElementById('dc'),{type:'doughnut',data:{labels:['Konjunkturell','Strukturell','Friktionell','Technologisch','Saisonal'],datasets:[{data:[34,28,18,12,8],backgroundColor:['#ef5353','#60a5fa','#f0b429','#a78bfa','#4ade9a'],borderColor:'#13171d',borderWidth:3,hoverOffset:5}]},options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1f27',borderColor:'#252d38',borderWidth:1,padding:10,callbacks:{label:function(c){return' '+c.label+': '+c.parsed+' %'}}}}}});
+</script>
+</body>
+</html>
